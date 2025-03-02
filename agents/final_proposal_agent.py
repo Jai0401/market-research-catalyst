@@ -1,18 +1,19 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
-
 from config import GEMINI_API_KEY
 
 def create_final_proposal_agent():
     """Agent to create the final proposal, summarizing use cases and resources."""
-
+    
+    # Initialize the LLM using your Gemini API key.
     llm = ChatGoogleGenerativeAI(
-        model="gemini-1.5-flash",
+        model="gemini-2.0-flash",
         google_api_key=GEMINI_API_KEY,
         temperature=0.2
     )
 
+    # Define the prompt template with the necessary placeholders.
     prompt_template = PromptTemplate(
         input_variables=["industry_research", "use_cases", "resource_links"],
         template="""
@@ -30,7 +31,7 @@ def create_final_proposal_agent():
 
         Your tasks are:
         1. **Summarize the top use cases** (prioritize based on relevance and impact). Select the top 3-5 most impactful use cases.
-        2. **Ensure Relevance:**  Confirm that the selected use cases are directly relevant to the company's goals and operational needs based on the industry research.
+        2. **Ensure Relevance:** Confirm that the selected use cases are directly relevant to the company's goals and operational needs based on the industry research.
         3. **Add References:** Include any references or sources that were used to suggest these use cases (from the research or use case generation steps).
         4. **Format for Proposal:** Structure the output as a clear and concise proposal document. Include clickable resource links where applicable (especially for datasets).
 
@@ -39,24 +40,11 @@ def create_final_proposal_agent():
         - **Industry Overview:** Summarize key findings from the industry research.
         - **Top Use Case Proposals:** Detail each top use case, including benefits and potential implementation strategies.
         - **Resource Assets:** List relevant dataset and resource links for each use case.
-        - **Conclusion:**  Summarize the value proposition and next steps.
+        - **Conclusion:** Summarize the value proposition and next steps.
         """
     )
 
-    final_proposal_chain = LLMChain(llm=llm, prompt=prompt_template, output_key="final_proposal")
-    return final_proposal_chain
+    # Create the chain without any external tools.
+    final_proposal_chain = prompt_template | llm
+    return final_proposal_chain, prompt_template
 
-if __name__ == '__main__':
-    # Example Usage (you'd get data from previous agents)
-    example_industry_research = "Automotive Industry is focusing on EVs and autonomous driving..."
-    example_use_cases = "Use Case 1: Predictive Maintenance... Use Case 2: AI Chatbot..."
-    example_resource_links = "Use Case 1 Resources:\n- [Dataset Link](...)\nUse Case 2 Resources:\n- [Resource Link](...)"
-
-    final_proposal_agent = create_final_proposal_agent()
-    final_proposal = final_proposal_agent.run(
-        industry_research=example_industry_research,
-        use_cases=example_use_cases,
-        resource_links=example_resource_links
-    )
-    print("Final Proposal:")
-    print(final_proposal)

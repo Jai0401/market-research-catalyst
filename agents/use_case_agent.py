@@ -1,14 +1,13 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
-
 from config import GEMINI_API_KEY
 
 def create_use_case_agent():
     """Agent to generate relevant AI/GenAI use cases based on industry research."""
-
+    
     llm = ChatGoogleGenerativeAI(
-        model="gemini-1.5-flash",
+        model="gemini-2.0-flash",
         google_api_key=GEMINI_API_KEY,
         temperature=0.2
     )
@@ -39,15 +38,7 @@ def create_use_case_agent():
         """
     )
 
-    use_case_chain = LLMChain(llm=llm, prompt=prompt_template, output_key="use_cases")
-    return use_case_chain
+    # Use LLMChain directly since no external tools are needed.
+    use_case_chain = prompt_template | llm
+    return use_case_chain, prompt_template
 
-if __name__ == '__main__':
-    # Example usage (you'd normally get industry_research from the previous agent)
-    example_industry_research = """
-    The Automotive Industry is undergoing a massive transformation... (imagine detailed research output here) ... focusing on electric vehicles, autonomous driving, and connected car technologies.
-    """
-    use_case_agent = create_use_case_agent()
-    use_cases = use_case_agent.run(industry_research=example_industry_research)
-    print("Generated Use Cases:")
-    print(use_cases)

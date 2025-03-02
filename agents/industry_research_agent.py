@@ -1,42 +1,49 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.prompts import PromptTemplate
-from langchain.chains import LLMChain
-
+from langchain.agents import initialize_agent, AgentType
 from tools.web_browser import WebBrowserTool
 from config import GEMINI_API_KEY, COMPANY_OR_INDUSTRY_TO_RESEARCH
 
 def create_industry_research_agent():
-    """Agent to research industry and company information."""
-
+    """Agent to research industry and company information using a web browser tool."""
+    
+    # Initialize the LLM with your Gemini API key.
     llm = ChatGoogleGenerativeAI(
-        model="gemini-1.5-flash",
+        model="gemini-2.0-flash",
         google_api_key=GEMINI_API_KEY,
         temperature=0.2
     )
+    
+    # Create an instance of your web browser tool.
     web_browser_tool = WebBrowserTool()
+    
+    # Define a list of tools the agent can use.
+    tools = [web_browser_tool]
+    
+    # Prepare a custom instruction prompt.
+    instructions = """
+    You are a market research expert. Your goal is to understand a given industry or company.
 
+    1. Identify the industry and its segments.
+    2. Outline key offerings and strategic focus areas.
+
+    Use the provided web browser tool when necessary to gather updated and detailed information.
+
+    Industry/Company to Research: {industry_or_company}
+    """
+    
     prompt_template = PromptTemplate(
         input_variables=["industry_or_company"],
-        template="""
-        You are a market research expert. Your goal is to understand a given industry or company.
-
-        1. **Identify the industry and segment:** Determine the industry and specific segments the company operates in (e.g., Automotive, Manufacturing, Finance, Retail, Healthcare).
-        2. **Key Offerings & Strategic Focus:** Identify the company's key product/service offerings and strategic focus areas (operations, supply chain, customer experience, etc.). Understand their vision and product information.
-
-        Use the web browser tool to research "{industry_or_company}".
-
-        Provide a detailed summary of your findings, focusing on the above points.
-
-        Industry/Company to Research: {industry_or_company}
-        """
+        template=instructions
     )
+    
+    # Initialize the agent using a zero-shot React-style agent which supports tool calls.
+    agent = initialize_agent(
+        tools,
+        llm,
+        agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
+        verbose=True,
+    )
+    
+    return agent, prompt_template
 
-    research_chain = LLMChain(llm=llm, prompt=prompt_template, output_key="industry_research")
-
-    return research_chain
-
-if __name__ == '__main__':
-    research_agent = create_industry_research_agent()
-    industry_info = research_agent.run(industry_or_company=COMPANY_OR_INDUSTRY_TO_RESEARCH)
-    print("Industry Research Results:")
-    print(industry_info)
