@@ -7,14 +7,12 @@ from config import GEMINI_API_KEY
 def create_resource_agent():
     """Agent to collect relevant datasets and resources for the generated use cases."""
     
-    # Initialize the LLM using your Gemini API key.
     llm = ChatGoogleGenerativeAI(
         model="gemini-2.0-flash",
         google_api_key=GEMINI_API_KEY,
         temperature=0.2
     )
     
-    # Create an instance of the web browser tool.
     web_browser_tool = WebBrowserTool()
     
     # Define the instructions for the resource agent.

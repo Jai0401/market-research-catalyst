@@ -7,20 +7,17 @@ from config import GEMINI_API_KEY, COMPANY_OR_INDUSTRY_TO_RESEARCH
 def create_industry_research_agent():
     """Agent to research industry and company information using a web browser tool."""
     
-    # Initialize the LLM with your Gemini API key.
     llm = ChatGoogleGenerativeAI(
         model="gemini-2.0-flash",
         google_api_key=GEMINI_API_KEY,
         temperature=0.2
     )
     
-    # Create an instance of your web browser tool.
     web_browser_tool = WebBrowserTool()
     
     # Define a list of tools the agent can use.
     tools = [web_browser_tool]
     
-    # Prepare a custom instruction prompt.
     instructions = """
     You are a market research expert. Your goal is to understand a given industry or company.
 
