@@ -1,40 +1,39 @@
 # Resource Links for Agriculture Use Cases
 
-**Use Case 1: AI-Powered Crop Health Monitoring and Disease Prediction**
+**Use Cases for GenAI/ML in Agriculture:**
 
-*   **Use Case:** Proactive identification and prediction of crop diseases and nutrient deficiencies using aerial imagery and sensor data.
-    *   Dataset Link 1: [https://www.kaggle.com/datasets/vipoooool/new-plant-diseases-dataset](https://www.kaggle.com/datasets/vipoooool/new-plant-diseases-dataset)
-    *   Dataset Link 2: [https://www.kaggle.com/datasets/mexwell/crop-diseases-classification](https://www.kaggle.com/datasets/mexwell/crop-diseases-classification)
-    *   Resource Link 1: [https://github.com/mohui1999/crop_disease_code](https://github.com/mohui1999/crop_disease_code)
-    *   Resource Link 2: [https://github.com/mathieujouffroy/CropCare](https://github.com/mathieujouffroy/CropCare)
+**1. Use Case: AI-Powered Crop Disease and Pest Detection & Diagnosis**
+*   **Description:** Early and accurate detection of crop diseases and pest infestations is crucial for minimizing yield loss and reducing pesticide usage.
+    *   **Dataset Link 1:** [20k+ Multi-Class Crop Disease Images - Kaggle](https://www.kaggle.com/datasets/jawadali1045/20k-multi-class-crop-disease-images)
+    *   **Resource Link 1:** [Revolutionizing agriculture with artificial intelligence: plant disease ...](https://pmc.ncbi.nlm.nih.gov/articles/PMC10965613/)
+    *   **Resource Link 2:** [Disease and Pest Detection in crops using Computer Vision](https://www.researchgate.net/publication/376861770_Disease_and_Pest_Detection_in_crops_using_Computer_Vision_A_Comprehensive_Study)
 
-**Use Case 2: Intelligent Livestock Management and Welfare Optimization**
+**2. Use Case: Personalized Crop Management Recommendations**
+*   **Description:** Providing farmers with tailored recommendations on irrigation, fertilization, and planting schedules based on specific field conditions, weather patterns, and crop types.
+    *   **Dataset Link 1:** [Crop Recommendation Dataset - Kaggle](https://www.kaggle.com/datasets/atharvaingle/crop-recommendation-dataset)
+    *   **Resource Link 1:** [AbdelrhmanWalaa/CRS - Crop Recommendation System - GitHub](https://github.com/AbdelrhmanWalaa/CRS)
+    *   **Resource Link 2:** [Crop Recommendation System using ML - SciSpace](https://scispace.com/pdf/crop-recommendation-system-using-ml-39emzikn.pdf)
 
-*   **Use Case:** Monitoring livestock health, behavior, and environmental conditions to optimize feeding, breeding, and overall welfare.
-    *   Dataset Link 1: [https://www.kaggle.com/datasets/hienvuvg/mmcows](https://www.kaggle.com/datasets/hienvuvg/mmcows)
-    *   Resource Link 1: [https://github.com/Animal-Data-Inventory/PLFDataInventory](https://github.com/Animal-Data-Inventory/PLFDataInventory)
-    *   Resource Link 2: [https://github.com/Karkodan/FarmGenie](https://github.com/Karkodan/FarmGenie)
+**3. Use Case: Automated Agricultural Equipment Operation and Optimization**
+*   **Description:** Automating tasks such as planting, harvesting, and spraying using AI-powered robots and drones.
+    *   **Dataset Link 1:** [ARD-VO: Agricultural Robot Dataset of Vineyards and Olive groves - GitHub](https://github.com/isarlab-department-engineering/ARDVO)
+    *   **Resource Link 1:** [Citrus-Farm-Dataset: Multimodal Dataset for Localization, Mapping and Crop Monitoring in Citrus Tree Farms, ISVC 2023 - GitHub](https://github.com/UCR-Robotics/Citrus-Farm-Dataset)
+    *   **Resource Link 2:** [The National Robotics Engineering Center Agricultural Person-Detection Dataset](https://agdatacommons.nal.usda.gov/articles/dataset/The_National_Robotics_Engineering_Center_Agricultural_Person-Detection_Dataset/24661704)
 
-**Use Case 3: AI-Driven Supply Chain Optimization and Demand Forecasting**
+**4. Use Case: Supply Chain Optimization and Traceability**
+*   **Description:** Improving the efficiency and transparency of the agricultural supply chain from farm to consumer.
+    *   **Dataset Link 1:** [Supply Chain DataSet - Kaggle](https://www.kaggle.com/datasets/amirmotefaker/supply-chain-dataset)
+    *   **Resource Link 1:** [Optimizing Agricultural Supply Chains with Machine Learning Algorithms](https://www.researchgate.net/publication/378846351_Optimizing_Agricultural_Supply_Chains_with_Machine_Learning_Algorithms)
+    *   **Resource Link 2:** [Digital Traceability in Agri-Food Supply Chains - MDPI](https://www.mdpi.com/2304-8158/13/7/1075)
 
-*   **Use Case:** Predicting demand for agricultural products, optimizing logistics, and reducing waste throughout the supply chain.
-    *   Dataset Link 1: [https://www.kaggle.com/datasets/amirmotefaker/supply-chain-dataset](https://www.kaggle.com/datasets/amirmotefaker/supply-chain-dataset)
-    *   Dataset Link 2: [https://www.kaggle.com/datasets/unitednations/global-food-agriculture-statistics](https://www.kaggle.com/datasets/unitednations/global-food-agriculture-statistics)
-    *   Resource Link 1: [https://farmguru.ai/](https://farmguru.ai/)
-    *   Resource Link 2: [https://supplai.ai/](https://supplai.ai/)
+**5. Use Case: Climate-Smart Agriculture and Carbon Sequestration Monitoring**
+*   **Description:** Promoting sustainable farming practices that reduce greenhouse gas emissions and enhance carbon sequestration in agricultural soils.
+    *   **Dataset Link 1:** [Land & Carbon Lab Data](https://www.landcarbonlab.org/data)
+    *   **Resource Link 1:** [Partnerships for Climate-Smart Commodities Project Summaries](https://www.usda.gov/about-usda/general-information/priorities/climate-solutions/climate-smart-commodities/partnerships-climate-smart-commodities-project-summaries)
+    *   **Resource Link 2:** [Climate-Smart Research for the Farms of the Future | Briefing | EESI](https://www.eesi.org/briefings/view/091223farmbill)
 
-**Use Case 4: Personalized Agricultural Advisory Services via Chatbots**
-
-*   **Use Case:** Providing farmers with personalized advice on crop selection, planting schedules, irrigation techniques, and pest control strategies.
-    *   Resource Link 1: [https://github.com/sulekhaaloorravi/AgriculturalChatbot](https://github.com/sulekhaaloorravi/AgriculturalChatbot)
-    *   Resource Link 2: [https://github.com/VaishnaviKillekar/Balaram-Agriculture-Chatbot](https://github.com/VaishnaviKillekar/Balaram-Agriculture-Chatbot)
-    *   Resource Link 3: [https://farmguru.ai/](https://farmguru.ai/)
-    *   Resource Link 4: [https://agricopilot.ai/](https://agricopilot.ai/)
-
-**Use Case 5: Automated Farm Equipment Operation and Maintenance**
-
-*   **Use Case:** Automating tasks such as planting, harvesting, and spraying using autonomous vehicles and robots.
-    *   Dataset Link 1: [https://data.nal.usda.gov/dataset/national-robotics-engineering-center-agricultural-person-detection-dataset](https://data.nal.usda.gov/dataset/national-robotics-engineering-center-agricultural-person-detection-dataset)
-    *   Dataset Link 2: [https://github.com/UCR-Robotics/Citrus-Farm-Dataset](https://github.com/UCR-Robotics/Citrus-Farm-Dataset)
-    *   Resource Link 1: [https://farmguru.ai/](https://farmguru.ai/)
-    *   Resource Link 2: [https://agrointelli.com/robotti/](https://agrointelli.com/robotti/)
+**6. Use Case: Enhanced Customer Support and Farmer Education**
+*   **Description:** Providing farmers with readily available and personalized support and educational resources.
+    *   **Dataset Link 1:** [Dataset on digital technologies as learning content in farm manager ...](https://www.sciencedirect.com/science/article/pii/S2352340923002329)
+    *   **Resource Link 1:** [Agriculture in the Digital Age - Explore the full dataset](https://agricultureinthedigitalage.org/explore-data/)
+    *   **Resource Link 2:** [2023 Farm to School Census - USDA Food and Nutrition Service](https://www.fns.usda.gov/research/f2s/census2023)
