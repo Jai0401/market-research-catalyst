@@ -56,7 +56,8 @@ def main():
     final_proposal_output = final_proposal_agent.invoke({
         "industry_research": industry_research_text,
         "use_cases": use_cases_text,
-        "resource_links": resource_text
+        "resource_links": resource_text,
+        "company_name": COMPANY_OR_INDUSTRY_TO_RESEARCH
     })
     # Extract the text output from the final proposal agent's response.
     final_proposal_text = final_proposal_output.content

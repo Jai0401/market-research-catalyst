@@ -166,7 +166,8 @@ else:
             final_proposal_output = final_proposal_agent.invoke({
                 "industry_research": industry_research_text,
                 "use_cases": use_cases_text,
-                "resource_links": resource_text
+                "resource_links": resource_text,
+                "company_name": company_name
             })
             final_proposal_text = final_proposal_output.content
             progress.progress(100)
