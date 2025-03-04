@@ -7,3 +7,8 @@ python-dotenv
 requests
 markdown2
 exa-py
+wordcloud
+matplotlib
+pandas
+numpy
+streamlit
