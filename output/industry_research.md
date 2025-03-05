@@ -1,17 +1,6 @@
-1. **Industry:** Artificial Intelligence (AI)
-    *   **Segments:** Generative AI, Open-Source AI, AI Platform as a Service (PaaS)
-
-2.  **Key Offerings:**
-    *   Open-source AI models (Mistral 7B, Mixtral 8x7B, Mixtral 8x22B)
-    *   Developer platform for accessing and deploying AI models
-    *   Commercial AI models
-    *   "Le Chat" conversational assistant
-    *   AI systems for defense (through partnership with Helsing)
-
-3.  **Strategic Focus Areas:**
-    *   Challenging the dominance of "big AI" companies like Google and OpenAI
-    *   Making frontier AI ubiquitous and accessible to developers and businesses
-    *   Providing customizable and portable AI solutions
-    *   Developing AI for specific applications, including defense
-    *   Focus on open-source and transparency
-    *   Competing on efficiency and performance of AI models
+1.  Industry and Segments:
+    *   Industry: Artificial Intelligence (AI), specifically Generative AI and Search.
+    *   Segments: AI-Powered Search Engines, AI Chatbots/Conversational AI, Research Tools, Information Retrieval.
+2.  Key Offerings and Strategic Focus Areas:
+    *   Key Offerings: AI-Powered Search Engine, Real-Time Information, AI Models.
+    *   Strategic Focus Areas: Alternative to Traditional Search Engines, Natural Language Processing (NLP), Citing Sources, Building Safe and Beneficial Artificial General Intelligence (AGI), Focus on research and providing quality insights.
