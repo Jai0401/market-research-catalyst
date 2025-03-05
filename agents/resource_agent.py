@@ -54,4 +54,3 @@ def create_resource_agent():
     
     # Return both the agent and the prompt template.
     return agent, prompt_template
-

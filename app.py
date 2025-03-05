@@ -3,8 +3,6 @@ import os
 import time
 from config import COMPANY_OR_INDUSTRY_TO_RESEARCH
 import importlib
-import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 
@@ -32,47 +30,71 @@ with st.sidebar:
         value=COMPANY_OR_INDUSTRY_TO_RESEARCH
     )
     
-    # Optional advanced settings
-    with st.expander("Advanced Settings"):
-        st.caption("API Keys are loaded from .env file by default")
-        gemini_api_key = st.text_input("Gemini API Key:", type="password")
-        exa_api_key = st.text_input("Exa API Key:", type="password")
+    # API Keys section
+    st.header("API Keys (Required)")
+
+    # Check if keys exist in environment
+    import os
+    gemini_key_exists = bool(os.getenv("GEMINI_API_KEY"))
+    exa_key_exists = bool(os.getenv("EXA_API_KEY"))
+
+    # Gemini API Key
+    if gemini_key_exists:
+        st.success("✅ Gemini API Key found in environment")
+        use_env_gemini = st.checkbox("Use existing Gemini API Key", value=True, key="use_env_gemini")
+        if use_env_gemini:
+            gemini_api_key = None  # Will use the environment variable
+            gemini_key_provided = True
+        else:
+            gemini_api_key = st.text_input(
+                "Enter Gemini API Key:", 
+                type="password",
+            )
+    else:
+        st.warning("⚠️ No Gemini API Key found in environment")
+        gemini_api_key = st.text_input(
+            "Enter Gemini API Key (required):", 
+            type="password",
+            help="Get a key at https://aistudio.google.com/app/apikey"
+        )
+        if not gemini_api_key:
+            st.info("You'll need a Gemini API Key to run this app")
     
-    # Run button
-    run_research = st.button("Generate Research", type="primary")
+    # Exa API Key
+    if exa_key_exists:
+        st.success("✅ Exa API Key found in environment")
+        use_env_exa = st.checkbox("Use existing Exa API Key", value=True, key="use_env_exa")
+        if use_env_exa:
+            exa_api_key = None  # Will use the environment variable
+        else:
+            exa_api_key = st.text_input(
+                "Enter Exa API Key:", 
+                type="password",
+                help="Get a key at https://exa.ai/pricing"
+            )
+    else:
+        st.warning("⚠️ No Exa API Key found in environment")
+        exa_api_key = st.text_input(
+            "Enter Exa API Key (required):", 
+            type="password",
+            help="Get a key at https://exa.ai/pricing"
+        )
+        if not exa_api_key:
+            st.info("You'll need an Exa API Key to perform web searches")
+    
+    # Run button (with validation)
+    run_button_disabled = (not gemini_key_exists and not gemini_api_key) or (not exa_key_exists and not exa_api_key)
+    
+    if run_button_disabled:
+        st.warning("Please enter both API keys to proceed")
+        
+    run_research = st.button("Generate Research", type="primary", disabled=run_button_disabled)
     
     # Information section
     st.info(
         "This process may take 5-10 minutes to complete as it " 
         "conducts thorough research across multiple sources."
     )
-
-# Add to sidebar
-with st.sidebar:
-    st.header("Research History")
-    
-    # List files in output directory
-    previous_research = []
-    if os.path.exists("output"):
-        for file in os.listdir("output"):
-            if file.endswith("_proposal.md"):
-                previous_research.append(file.replace("_proposal.md", ""))
-    
-    if previous_research:
-        selected_previous = st.selectbox("View previous research:", previous_research)
-        if st.button("Load Selected Research"):
-            # Logic to load previous research
-            pass
-    else:
-        st.text("No previous research found.")
-
-# Add to sidebar
-with st.sidebar:
-    st.header("Comparative Analysis")
-    competitor = st.text_input("Compare with competitor (optional):")
-    if competitor and st.button("Run Comparison"):
-        # Logic to run competitor analysis
-        pass
 
 # Main content area
 if not run_research:
@@ -84,8 +106,9 @@ if not run_research:
     
     ### How it works:
     1. Enter a company or industry name in the sidebar
-    2. Click "Generate Research"
-    3. The AI will:
+    2. Provide your API keys (required for operation)
+    3. Click "Generate Research"
+    4. The AI will:
        - Research the company/industry
        - Generate relevant use cases
        - Find supporting resources
@@ -97,6 +120,26 @@ if not run_research:
     - Electric Vehicles Industry
     - Healthcare AI
     """)
+    
+    # Add API key info box
+    with st.expander("About API Keys"):
+        st.markdown("""
+        ### Why API Keys are Required
+        
+        This application uses two external AI services:
+        
+        1. **Google Gemini API** - For generating research, use cases, and proposals
+        2. **Exa API** - For performing web searches to gather information
+        
+        ### How to Obtain API Keys
+        
+        - **Gemini API Key**: Visit [Google AI Studio](https://aistudio.google.com/app/apikey) to create a free API key
+        - **Exa API Key**: Visit [Exa](https://exa.ai/pricing) to sign up and obtain a key
+        
+        ### Security Note
+        
+        Your API keys are only used during your current session and are not stored permanently.
+        """)
 
 else:
     # Update the company name in config
@@ -106,8 +149,11 @@ else:
     # Set API keys if provided
     if gemini_api_key:
         config.GEMINI_API_KEY = gemini_api_key
+        os.environ["GEMINI_API_KEY"] = gemini_api_key  # Also update environment variable
+    
     if exa_api_key:
         config.EXA_API_KEY = exa_api_key
+        os.environ["EXA_API_KEY"] = exa_api_key  # Also update environment variable
     
     # Reset module to apply config changes
     importlib.reload(config)
@@ -120,6 +166,12 @@ else:
     from main import main
     
     try:
+        # First verify API keys are valid before proceeding
+        if not config.GEMINI_API_KEY:
+            raise ValueError("Gemini API Key is missing")
+        if not config.EXA_API_KEY:
+            raise ValueError("Exa API Key is missing")
+        
         # Show spinner during execution
         with st.spinner(f"Researching {company_name}..."):
             # Step 1: Industry Research (25%)
@@ -244,6 +296,9 @@ else:
             # Logic for exporting in selected format
             st.success(f"Exported as {export_format}")
         
+    except ValueError as e:
+        st.error(f"API Key Error: {str(e)}")
+        st.info("Please provide valid API keys in the sidebar to run the research.")
     except Exception as e:
         st.error(f"An error occurred: {str(e)}")
-        st.info("Please check your API keys and try again.")
+        st.info("This could be due to invalid API keys or rate limits. Please check your API keys and try again.")

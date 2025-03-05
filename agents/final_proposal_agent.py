@@ -50,4 +50,3 @@ def create_final_proposal_agent():
     # Create the chain without any external tools.
     final_proposal_chain = prompt_template | llm
     return final_proposal_chain, prompt_template
-

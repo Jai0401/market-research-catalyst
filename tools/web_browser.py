@@ -10,6 +10,9 @@ class WebBrowserTool(BaseTool):
 
     def _run(self, query: str) -> str:
         """Use the tool to search the web."""
+        # Always use the current value from config
+        from config import EXA_API_KEY
+        
         exa = Exa(EXA_API_KEY)
         # Use type="auto" to combine neural and keyword search (adjust as needed)
         search_results = exa.search_and_contents(query, num_results=5, type="auto")
