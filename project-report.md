@@ -2,7 +2,7 @@
 
 ### 1. Introduction
 
-This report details a methodology, results, and conclusions derived from an AI-powered system designed for automated market research and proposal generation. The system leverages a multi-agent architecture, employing Large Language Models (LLMs) and Generative AI (GenAI) to streamline the process of industry analysis, use case identification, resource discovery, and final proposal creation. The architecture flowchart of the implementation is presented to visually represent the system's workflow.
+This report details a methodology, results, and conclusions derived from an AI-powered system designed for automated market research and proposal generation. The system leverages a multi-agent architecture, employing Large Language Models (LLMs) and Generative AI (GenAI) to streamline the process of industry analysis, use case identification, resource discovery, and final proposal creation. The system features an interactive Streamlit interface that progressively displays research results and offers comprehensive export options.
 
 ### 2. Methodology
 
@@ -16,23 +16,33 @@ The system architecture is depicted in the flowchart below:
 
 As shown in the flowchart, the system operates through the following stages:
 
-1.  **Configuration (Config):** The process starts with loading configurations from `config.py`, which includes API keys for Gemini and Exa services, and the target industry or company for research (`COMPANY_OR_INDUSTRY_TO_RESEARCH`).
-2.  **Industry Research Agent:** Initiated by `main.py`, this agent uses the `Web Browser Tool` powered by the Exa Search API to conduct market research on the specified industry. The agent's goal is to understand the industry landscape, key trends, and strategic focus areas. The output is saved as "Save Industry Research" data.
-3.  **Use Case Agent:**  This agent takes the "Save Industry Research" data as input and leverages the Gemini API to generate relevant AI and GenAI use cases for the target industry. It focuses on practical and impactful applications that can improve processes, enhance customer satisfaction, and boost operational efficiency. The generated use cases are saved as "Save Use Cases" data and also outputted to `use_cases.md`.
-4.  **Resource Agent:** Utilizing the "Save Use Cases" data and the `Web Browser Tool` with Exa Search API, this agent identifies and collects relevant datasets, articles, and open-source projects that can support the implementation of the generated use cases. The discovered resource links are saved as "Save Resource Links" data and outputted to `resource_links.md`.
-5.  **Final Proposal Agent:** This agent consolidates the "Save Industry Research," "Save Use Cases," and "Save Resource Links" data. It employs the Gemini API to synthesize a comprehensive final proposal document. This proposal summarizes the industry research, highlights the top use cases, and provides relevant resource assets. The final proposal is saved as "Save Final Proposal" data and outputted to `final_proposal.md`.
-6.  **Output Files:** The system generates three primary output files in the `output` directory: `use_cases.md`, `resource_links.md`, and `final_proposal.md`, which contain the generated use cases, resource links, and the final proposal, respectively.
+1. **Configuration (Config):** The process starts with loading configurations from `config.py`, which includes API keys for Gemini and Exa services, and the target industry or company for research (`COMPANY_OR_INDUSTRY_TO_RESEARCH`).
+
+2. **API Key Management:** The system supports a "Bring Your Own API Key" model, allowing users to input their own API keys through the UI or use environment variables if available.
+
+3. **Industry Research Agent:** Initiated by `main.py`, this agent uses the `Web Browser Tool` powered by the Exa Search API to conduct market research on the specified industry. The agent's goal is to understand the industry landscape, key trends, and strategic focus areas. Results are displayed in real-time in the "Industry Research" tab and saved to the output directory.
+
+4. **Use Case Agent:** This agent takes the industry research data as input and leverages the Gemini API to generate relevant AI and GenAI use cases for the target industry. It focuses on practical and impactful applications. Results are displayed in the "Use Cases" tab and saved to `use_cases.md`.
+
+5. **Resource Agent:** Utilizing the use cases data and the `Web Browser Tool` with Exa Search API, this agent identifies and collects relevant datasets, articles, and open-source projects. Results are displayed in the "Resources" tab and saved to `resource_links.md`.
+
+6. **Final Proposal Agent:** This agent consolidates all previous research data to synthesize a comprehensive final proposal document. Results are displayed in the "Final Proposal" tab and saved to `final_proposal.md`.
+
+7. **Export Options:** The system provides multiple export options, allowing users to download individual research components or a complete research package.
 
 **2.2 Agent Details**
 
-*   **Industry Research Agent (`agents/industry_research_agent.py`):**  This agent is designed to act as a market research expert. It uses the `WebBrowserTool` to search the web for information about a given industry or company. The prompt instructs the agent to identify industry segments, key offerings, and strategic focus areas. It uses a `ZERO_SHOT_REACT_DESCRIPTION` agent type, allowing it to use tools based on descriptions.
-*   **Use Case Agent (`agents/use_case_agent.py`):** This agent acts as an AI and GenAI use case generation expert. It takes the industry research output as input and proposes relevant use cases for leveraging GenAI, LLMs, and ML technologies. The prompt emphasizes practical and impactful use cases focusing on operations enhancement, customer experience improvement, automation, and new opportunities. It utilizes a simple `LLMChain` as no external tools are needed.
-*   **Resource Agent (`agents/resource_agent.py`):** This agent functions as a resource finding expert, specializing in datasets and AI/ML resources. It uses the `WebBrowserTool` to search for datasets (e.g., on Kaggle, HuggingFace Datasets) and other relevant resources (articles, blog posts, GitHub projects) for the generated use cases. It also employs a `ZERO_SHOT_REACT_DESCRIPTION` agent type to utilize the web browser tool.
-*   **Final Proposal Agent (`agents/final_proposal_agent.py`):** This agent serves as a final proposal generation expert. It summarizes the industry research, generated use cases, and collected resource links to create a structured final proposal document. The prompt guides the agent to summarize top use cases, ensure relevance, add references, and format the output as a clear and concise proposal. It uses a simple `LLMChain` as no external tools are needed.
+* **Industry Research Agent (`agents/industry_research_agent.py`):** This agent is designed to act as a market research expert. It uses the `WebBrowserTool` to search the web for information about a given industry or company. The prompt instructs the agent to identify industry segments, key offerings, and strategic focus areas. It uses a `ZERO_SHOT_REACT_DESCRIPTION` agent type, allowing it to use tools based on descriptions.
 
-**2.3 Tools**
+* **Use Case Agent (`agents/use_case_agent.py`):** This agent acts as an AI and GenAI use case generation expert. It takes the industry research output as input and proposes relevant use cases for leveraging GenAI, LLMs, and ML technologies. The prompt emphasizes practical and impactful use cases focusing on operations enhancement, customer experience improvement, automation, and new opportunities. It utilizes a simple `LLMChain` as no external tools are needed.
 
-*   **Web Browser Tool (`tools/web_browser.py`):** This tool, based on the `exa-py` library, enables the agents to browse the web and retrieve information. It is used by the Industry Research Agent and Resource Agent to gather data and resources from the internet.
+* **Resource Agent (`agents/resource_agent.py`):** This agent functions as a resource finding expert, specializing in datasets and AI/ML resources. It uses the `WebBrowserTool` to search for datasets (e.g., on Kaggle, HuggingFace Datasets) and other relevant resources (articles, blog posts, GitHub projects) for the generated use cases. It also employs a `ZERO_SHOT_REACT_DESCRIPTION` agent type to utilize the web browser tool.
+
+* **Final Proposal Agent (`agents/final_proposal_agent.py`):** This agent serves as a final proposal generation expert. It summarizes the industry research, generated use cases, and collected resource links to create a structured final proposal document. The prompt guides the agent to summarize top use cases, ensure relevance, add references, and format the output as a clear and concise proposal. It uses a simple `LLMChain` as no external tools are needed.
+
+**2.3 Tools and UI Components**
+
+* **Web Browser Tool (`tools/web_browser.py`):** This tool, based on the `exa-py` library, enables the agents to browse the web and retrieve information. It is used by the Industry Research Agent and Resource Agent to gather data and resources from the internet.
 
 **2.4 Configuration and Execution**
 
