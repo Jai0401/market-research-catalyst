@@ -1,6 +1,5 @@
 # AI-Powered Market Research and Proposal Generation
-
-![workflow](workflow.png)
+![Proposal_Generator](App.png)
 - ### [Demo Video](https://drive.google.com/file/d/1T4VASEsHrqYaLdABuf5HuEFNpaX6WT2p/view?usp=sharing)
 - ### [Project Report](https://github.com/Jai0401/market-research-catalyst/blob/main/project-report.md)
 
@@ -69,6 +68,7 @@ This project is intended for business analysts, consultants, and anyone who need
  This will execute the multi-agent system, performing market research, generating use cases, collecting resources, and creating the final proposal. The outputs will be saved in the `output` directory.
 
 ## 3. Core Modules and Architecture
+![workflow](workflow.png)
 
 ### Components
 *   **`agents/industry_research_agent.py`:** Researches industry information using a web browser tool.
