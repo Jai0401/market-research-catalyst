@@ -1,7 +1,7 @@
 # AI-Powered Market Research and Proposal Generation
-![Proposal_Generator](App.png)
+[![Proposal_Generator](App.png)](https://proposalgenerator.streamlit.app)
+Visit Website [Market Research Proposal Generator](https://proposalgenerator.streamlit.app)
 - ### [Demo Video](https://drive.google.com/file/d/1T4VASEsHrqYaLdABuf5HuEFNpaX6WT2p/view?usp=sharing)
-- ### [Project Report](https://github.com/Jai0401/market-research-catalyst/blob/main/project-report.md)
 
 ## 1. Project Overview
 
