@@ -6,6 +6,20 @@ import importlib
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 
+# Initialize session state to preserve research results
+if 'research_completed' not in st.session_state:
+    st.session_state.research_completed = False
+if 'industry_research_text' not in st.session_state:
+    st.session_state.industry_research_text = ""
+if 'use_cases_text' not in st.session_state:
+    st.session_state.use_cases_text = ""
+if 'resource_text' not in st.session_state:
+    st.session_state.resource_text = ""
+if 'final_proposal_text' not in st.session_state:
+    st.session_state.final_proposal_text = ""
+if 'current_company' not in st.session_state:
+    st.session_state.current_company = ""
+
 # Create output directory for storing generated research
 os.makedirs("output", exist_ok=True)
 
@@ -97,51 +111,80 @@ with st.sidebar:
     )
 
 # Main content area
-if not run_research:
-    # Display welcome screen with instructions
-    st.markdown("""
-    ## Welcome to Market Research AI
+if st.session_state.research_completed:
+    # Use session state to display previous research results
+    research_status = st.empty()
+    research_status.success(f"Research completed for {st.session_state.current_company}!")
+    st.markdown("---")
     
-    This tool automates the process of market research and proposal creation using AI.
+    # Create tabs and display results from session state
+    tab1, tab2, tab3, tab4 = st.tabs([
+        "Industry Research", 
+        "Use Cases", 
+        "Resources", 
+        "Final Proposal"
+    ])
     
-    ### How it works:
-    1. Enter a company or industry name in the sidebar
-    2. Provide your API keys (required for operation)
-    3. Click "Generate Research"
-    4. The AI will:
-       - Research the company/industry
-       - Generate relevant use cases
-       - Find supporting resources
-       - Create a comprehensive proposal
+    # Show results from session state
+    with tab1:
+        st.markdown(st.session_state.industry_research_text)
+        st.download_button(
+            "Download Industry Research", 
+            st.session_state.industry_research_text,
+            f"{st.session_state.current_company.replace(' ', '_')}_industry_research.md",
+            mime="text/markdown"
+        )
+        
+        # Generate word cloud
+        st.subheader("Key Terms Analysis")
+        try:
+            wordcloud = WordCloud(width=800, height=400, background_color='white').generate(st.session_state.industry_research_text)
+            fig, ax = plt.subplots()
+            ax.imshow(wordcloud, interpolation='bilinear')
+            ax.axis("off")
+            st.pyplot(fig)
+        except:
+            st.info("Could not generate visualization")
     
-    ### Example companies to try:
-    - Scale AI
-    - Snowflake
-    - Electric Vehicles Industry
-    - Healthcare AI
-    """)
+    with tab2:
+        st.markdown(st.session_state.use_cases_text)
+        st.download_button(
+            "Download Use Cases", 
+            st.session_state.use_cases_text,
+            f"{st.session_state.current_company.replace(' ', '_')}_use_cases.md",
+            mime="text/markdown"
+        )
     
-    # Add API key info box
-    with st.expander("About API Keys"):
-        st.markdown("""
-        ### Why API Keys are Required
-        
-        This application uses two external AI services:
-        
-        1. **Google Gemini API** - For generating research, use cases, and proposals
-        2. **Exa API** - For performing web searches to gather information
-        
-        ### How to Obtain API Keys
-        
-        - **Gemini API Key**: Visit [Google AI Studio](https://aistudio.google.com/app/apikey) to create a free API key
-        - **Exa API Key**: Visit [Exa](https://exa.ai/pricing) to sign up and obtain a key
-        
-        ### Security Note
-        
-        Your API keys are only used during your current session and are not stored permanently.
-        """)
+    with tab3:
+        st.markdown(st.session_state.resource_text)
+        st.download_button(
+            "Download Resource Links", 
+            st.session_state.resource_text,
+            f"{st.session_state.current_company.replace(' ', '_')}_resources.md",
+            mime="text/markdown"
+        )
+    
+    with tab4:
+        st.markdown(st.session_state.final_proposal_text)
+        st.download_button(
+            "Download Final Proposal", 
+            st.session_state.final_proposal_text,
+            f"{st.session_state.current_company.replace(' ', '_')}_proposal.md",
+            mime="text/markdown"
+        )
+    
+    # Export options
+    st.subheader("Export Options")
+    col1, col2 = st.columns(2)
+    # (Download buttons as specified above)
+    
+    # New research button
+    def start_new_research():
+        st.session_state.research_completed = False
+    
+    st.button("🔄 Start New Research", on_click=start_new_research)
 
-else:
+elif run_research:
     # Update the company name in config
     import config
     config.COMPANY_OR_INDUSTRY_TO_RESEARCH = company_name
@@ -244,6 +287,9 @@ else:
         
         progress.progress(25)
         
+        # Add this after completing each research step
+        st.session_state.industry_research_text = industry_research_text
+
         # Step 2: Use Case Generation (50%)
         status.text("Step 2/4: Generating AI use cases...")
         usecase_result_placeholder.info("⏳ Use Case Agent running...")
@@ -268,6 +314,9 @@ else:
             
         progress.progress(50)
         
+        # Add this after completing each research step
+        st.session_state.use_cases_text = use_cases_text
+
         # Step 3: Resource Collection (75%)
         status.text("Step 3/4: Finding relevant resources...")
         resource_result_placeholder.info("⏳ Resource Agent running...")
@@ -296,6 +345,9 @@ else:
             
         progress.progress(75)
         
+        # Add this after completing each research step
+        st.session_state.resource_text = resource_text
+
         # Step 4: Final Proposal Generation (100%)
         status.text("Step 4/4: Creating final proposal...")
         proposal_result_placeholder.info("⏳ Final Proposal Agent running...")
@@ -327,13 +379,84 @@ else:
         progress.progress(100)
         status.empty()
         research_status.success(f"Research completed for {company_name}!")
-        
-        # Export options section
+
+        # Add this after completing each research step
+        st.session_state.final_proposal_text = final_proposal_text
+        st.session_state.current_company = company_name
+        st.session_state.research_completed = True
+
+        # Export options section - Using proper download buttons
         st.markdown("View the complete results in the tabs above.")
         st.subheader("Export Options")
-        export_format = st.radio("Export Format:", ["Markdown", "PDF", "Word", "Presentation"])
-        if st.button("Export All"):
-            st.success(f"Exported as {export_format}")
+
+        # Use columns for a cleaner layout
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.download_button(
+                "📄 Download Industry Research",
+                data=industry_research_text,
+                file_name=f"{company_name.replace(' ', '_')}_industry_research.md",
+                mime="text/markdown",
+                key="dl_industry"
+            )
+            
+            st.download_button(
+                "📄 Download Use Cases",
+                data=use_cases_text,
+                file_name=f"{company_name.replace(' ', '_')}_use_cases.md",
+                mime="text/markdown",
+                key="dl_usecases"
+            )
+
+        with col2:
+            st.download_button(
+                "📄 Download Resources",
+                data=resource_text,
+                file_name=f"{company_name.replace(' ', '_')}_resources.md",
+                mime="text/markdown",
+                key="dl_resources"
+            )
+            
+            st.download_button(
+                "📄 Download Final Proposal",
+                data=final_proposal_text,
+                file_name=f"{company_name.replace(' ', '_')}_proposal.md",
+                mime="text/markdown",
+                key="dl_proposal"
+            )
+
+        # Add combined download option
+        st.markdown("---")
+        combined_content = f"""# Market Research for {company_name}
+
+        ## Industry Research
+        {industry_research_text}
+
+        ## Use Cases
+        {use_cases_text}
+
+        ## Resources
+        {resource_text}
+
+        ## Final Proposal
+        {final_proposal_text}
+        """
+
+        st.download_button(
+            "📚 Download Complete Research Package",
+            data=combined_content,
+            file_name=f"{company_name.replace(' ', '_')}_complete_research.md",
+            mime="text/markdown",
+            key="dl_complete"
+        )
+
+        # Add a "New Research" button with a callback to avoid page reloads
+        def start_new_research():
+            st.session_state.research_completed = False
+            st.session_state.run_research = False
+
+        st.button("🔄 Start New Research", on_click=start_new_research)
             
     except ValueError as e:
         status.empty()
@@ -342,4 +465,68 @@ else:
     except Exception as e:
         status.empty()
         st.error(f"An error occurred: {str(e)}")
-        st.info("This could be due to invalid API keys or rate limits. Please check your API keys and try again.")
+        st.info("This could be due to invalid API keys or rate limits. Please check your API keys and try again.")        # Add this at the end of your export options section:
+        
+        # Add a "New Research" button to let users start over
+        if st.button("Start New Research"):
+            # Force the app to reset by clearing the run_research state
+            st.session_state.run_research = False
+            st.experimental_rerun()                        # Add these session state initializations near the top, after imports
+            
+            # Initialize session state to preserve research results
+            if 'research_completed' not in st.session_state:
+                st.session_state.research_completed = False
+            if 'industry_research_text' not in st.session_state:
+                st.session_state.industry_research_text = ""
+            if 'use_cases_text' not in st.session_state:
+                st.session_state.use_cases_text = ""
+            if 'resource_text' not in st.session_state:
+                st.session_state.resource_text = ""
+            if 'final_proposal_text' not in st.session_state:
+                st.session_state.final_proposal_text = ""
+            if 'current_company' not in st.session_state:
+                st.session_state.current_company = ""
+
+else:
+    # Display welcome screen with instructions
+    st.markdown("""
+    ## Welcome to Market Research AI
+    
+    This tool automates the process of market research and proposal creation using AI.
+    
+    ### How it works:
+    1. Enter a company or industry name in the sidebar
+    2. Provide your API keys (required for operation)
+    3. Click "Generate Research"
+    4. The AI will:
+       - Research the company/industry
+       - Generate relevant use cases
+       - Find supporting resources
+       - Create a comprehensive proposal
+    
+    ### Example companies to try:
+    - Scale AI
+    - Snowflake
+    - Electric Vehicles Industry
+    - Healthcare AI
+    """)
+    
+    # Add API key info box
+    with st.expander("About API Keys"):
+        st.markdown("""
+        ### Why API Keys are Required
+        
+        This application uses two external AI services:
+        
+        1. **Google Gemini API** - For generating research, use cases, and proposals
+        2. **Exa API** - For performing web searches to gather information
+        
+        ### How to Obtain API Keys
+        
+        - **Gemini API Key**: Visit [Google AI Studio](https://aistudio.google.com/app/apikey) to create a free API key
+        - **Exa API Key**: Visit [Exa](https://exa.ai/pricing) to sign up and obtain a key
+        
+        ### Security Note
+        
+        Your API keys are only used during your current session and are not stored permanently.
+        """)
