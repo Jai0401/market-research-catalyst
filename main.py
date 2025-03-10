@@ -24,8 +24,12 @@ def main():
     # 2. Use Case Generation Agent
     use_case_agent, use_case_prompt = create_use_case_agent()
     print("Running Use Case Generation Agent...")
-    use_case_output = use_case_agent.invoke({"industry_research": industry_research_text})
-    use_cases_text = use_case_output.content
+    use_case_query = use_case_prompt.format(industry_research=industry_research_text)
+    use_case_output = use_case_agent.invoke(use_case_query)
+    use_cases_text = (
+        use_case_output.get("output", "") 
+        if isinstance(use_case_output, dict) else use_case_output
+    )
     print("Use Case Generation Completed.")
 
     # Save outputs to files

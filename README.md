@@ -1,7 +1,7 @@
 # AI-Powered Market Research and Proposal Generation
 This project automates the process of market research, use case generation, resource discovery, and final proposal creation using a multi-agent system powered by Large Language Models (LLMs) and Generative AI (GenAI). It leverages the Gemini API and a web browser tool to gather information, generate ideas, and create a comprehensive proposal document.
 
-![workflow](workflow.png)
+![workflow](workflow.svg)
 
 ## Getting Started
 ### Installation

@@ -2,7 +2,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.prompts import PromptTemplate
 from langchain.agents import initialize_agent, AgentType
 from tools.web_browser import WebBrowserTool
-from config import GEMINI_API_KEY, COMPANY_OR_INDUSTRY_TO_RESEARCH
+from config import GEMINI_API_KEY
 
 def create_industry_research_agent():
     """Agent to research industry and company information using a web browser tool."""

@@ -3,3 +3,4 @@ repomix-output.txt
 __pycache__
 venv
 samples
+.DS_Store
