@@ -50,4 +50,3 @@ This project automates the process of market research, use case generation, reso
 
 
 ## [Project Report](https://github.com/Jai0401/market-research-catalyst/blob/main/project-report.md)
-## [Demo Video](https://drive.google.com/file/d/1T4VASEsHrqYaLdABuf5HuEFNpaX6WT2p/view?usp=sharing)
