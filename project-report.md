@@ -12,7 +12,7 @@ The core methodology of this project is based on a multi-agent system, where eac
 
 The system architecture is depicted in the flowchart below:
 
-![Architecture Flowchart](workflow.png)
+![Architecture Flowchart](workflow.svg)
 
 As shown in the flowchart, the system operates through the following stages:
 
